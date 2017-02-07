@@ -153,7 +153,20 @@ def skipgram(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     # assignment!
 
     ### YOUR CODE HERE
-    # Check Assignment solution pdfs for math
+    
+    currIndex = tokens[currentWord]
+    predicted = inputVectors[currIndex,:]
+
+    cost = 0.0
+    gradIn = np.zeros(inputVectors.shape)
+    gradOut = np.zeros(outputVectors.shape)
+
+    for word in contextWords:
+        targetIndex = tokens[word]
+        c_cost, c_gradIn, c_gradOut = word2vecCostAndGradient(predicted,targetIndex,outputVectors,dataset)
+        cost += c_cost
+        gradOut += c_gradOut
+        gradIn[currIndex,:] += c_gradIn
 
 
     ### END YOUR CODE
@@ -180,7 +193,7 @@ def cbow(currentWord, C, contextWords, tokens, inputVectors, outputVectors,
     gradOut = np.zeros(outputVectors.shape)
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    #raise NotImplementedError
     ### END YOUR CODE
     
     return cost, gradIn, gradOut
